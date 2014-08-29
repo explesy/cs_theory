@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-def hex_to_dec(y, numeral):
+def to_dec(y, numeral):
 	''' Return decimal represntation of the digit in given numeral system '''
 
 	dec = 0 
@@ -16,7 +16,7 @@ def hex_to_dec(y, numeral):
 
 	return dec
 
-def dec_to_sept(x, numeral):
+def from_dec(x, numeral):
 	''' Return represntation of decimal number in given number system '''
 	res = ""
 	while x:
@@ -49,7 +49,7 @@ def main():
 	numeral_to = 7
 	for i in test:
 		if(is_hex_number(i)):
-			print("[V]", i, hex_to_dec(i, numeral_from), dec_to_sept(hex_to_dec(i, numeral_from), numeral_to))
+			print("[V]", i, to_dec(i, numeral_from), from_dec(to_dec(i, numeral_from), numeral_to))
 
 		else:
 			print("[ ]", i)
