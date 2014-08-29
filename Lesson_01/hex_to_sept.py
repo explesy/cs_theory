@@ -54,21 +54,4 @@ def main():
 		else:
 			print("[ ]", i)
 
-	# number = 0
-
-	# print("""\n
-	# 		**********************\n
-	# 		* Input quit to exit *\n
-	# 		**********************\n
-	# 		""")
-
-	# while(number != "quit"):
-	# 	number = input("Please input octal number: ")
-	# 	if(is_oct_number(number)):
-	# 		# print("We have a number")
-	# 		print("{} oct ---> {} dec".format(number, oct_to_dec(number)))
-	# 	else:
-	# 		print("It's don't looks like a octal number")
-
-
 main()
