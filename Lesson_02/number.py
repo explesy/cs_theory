@@ -2,9 +2,30 @@
 
 from itertools import zip_longest
 
+def to_dec(y, numeral):
+  ''' Return decimal represntation of the digit in given numeral system '''
+
+  dec = 0 
+  power = len(y) - 1
+
+  for digit in y:
+    if digit.isdigit():
+      dec += int(digit) * (numeral ** power)
+    else:
+      dec += int(chr_to_num(digit)) * (numeral ** power)
+
+    power -= 1
+
+  return dec
+
+
 class Number:
+
   def __init__(self, registers, numeral):
-    self.numeral = numeral
+    if numeral > 1:
+      self.numeral = numeral
+    else:
+      raise ValueError("Numeral system must be more than 1")
     self.registers = []
     for x in registers:
       if x > (numeral -1): raise ValueError("Register value more than ", numeral-1)
@@ -31,6 +52,7 @@ class Number:
     if overflow: result.append(1)
     return Number(result, numeral)
 
+
   def __sub__(self, other):
     if self != other:
       raise ValueError("Different numeral systems")
@@ -52,7 +74,7 @@ class Number:
     result = []
 
     for x, y in zip_longest(self.registers, other.registers, fillvalue = 0):
-      if x > y and not overflow:
+      if x >= y and not overflow:
         r = x - y
       elif x > y and overflow:
         r = x - y - 1
@@ -72,33 +94,6 @@ class Number:
 
     return Number(result, numeral)
 
-  def __mul__(self, other):
-    if self != other:
-      raise ValueError("Different numeral systems")
-
-    numeral = self.numeral
-    result = []
-    r1 = []
-    r2 = []
-    overflow = False
-
-    for x in self.registers:
-      for y in other.registers:
-        r = y * x
-        print(x, y, r)
-        if r >= numeral:
-          r = str(r)
-          # print(r, r[-1], r[0:-1], "*")
-          r2.append(r[-1])
-          overflow = True
-        result.append(r)
-      r1 = result
-        # print(r1)
-
-    # return Number(result, numeral)
-
-# def __floordiv__(self, other):
-
   def __str__(self):
     return str(self.registers)
 
@@ -108,6 +103,80 @@ class Number:
     else:
       return False
 
+  def __mul__(self, other):
+    if self != other:
+      raise ValueError("Different numeral systems")
+
+    numeral = self.numeral
+    result = []
+
+    factor = ''.join(map(str, other.registers[::-1]))
+    factor = to_dec(factor, numeral)
+
+    sum = Number((0, 0), numeral)
+
+    for i in range(0, factor):
+      sum += self
+
+    return sum
+
+
+'''
+  def __mul__(self, other):
+    if self != other:
+      raise ValueError("Different numeral systems")
+
+    numeral = self.numeral
+    result = []
+    r1 = []
+    iter = 0 
+    r2 = []
+    overflow = False
+
+    # Multiply numbers and collect them into a list
+    for x in self.registers:
+      for y in other.registers:
+        r = y * x
+        # print(x, y, r)
+        if r >= numeral:
+          r = str(r)
+          for digit in r:
+            r1.append(int(digit))
+          r2.insert(iter, r1)
+        else:
+          r1.append(r)
+          r2.insert(iter, r1)
+        r1 = []
+        iter +=1
+
+    print(r2)
+
+    step = 1
+
+    # Add some zeroes and reverse numbers
+    for digits in r2:
+      # print(len(digits), step)
+      while len(digits) < step:
+        digits.append(0)
+      # digits = digits.reverse()
+      print(digits)
+      step += 1
+
+    # print(r2)
+    
+    step = 0
+
+    sum = Number((0, 0), self.numeral)
+    
+    # Sum up the numbers
+    for numbers in r2:
+      sum += Number(r2[step], self.numeral)
+      step += 1
+
+    # print(sum)
+        
+    return sum
+'''
 
 
 def test():
@@ -115,6 +184,7 @@ def test():
   test_list = [
                 [Number((3, 255), 256), Number((2, 3), 256)],
                 [Number((1, 9), 10), Number((2, 7), 10)],
+                [Number((9, 9), 10), Number((9, 9), 10)],
                 [Number((0, 1), 2), Number((1, 0), 2)],
                 [Number((2, 7), 8), Number((3, 5), 8)]
               ]
@@ -122,10 +192,10 @@ def test():
   for x, y in test_list:
     sum = x + y
     diff = x - y
-    # mult = x * y 
+    mult = x * y 
 
     print("NS: {}   \t {} + {} = {}".format(x.numeral, x, y, sum))
     print("NS: {}   \t {} - {} = {}".format(x.numeral, x, y, diff))
-    # print("NS:   {} \t {} * {} = {}".format(x.numeral, x, y, mult))
+    print("NS: {}   \t {} * {} = {}".format(x.numeral, x, y, mult))
 
 test()
