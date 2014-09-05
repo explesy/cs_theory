@@ -22,10 +22,10 @@ def to_dec(y, numeral):
 class Number:
 
   def __init__(self, registers, numeral):
-    if numeral > 1:
+    if numeral >= 2 and numeral <= 256:
       self.numeral = numeral
     else:
-      raise ValueError("Numeral system must be more than 1")
+      raise ValueError("Numeral system must be from this interval: [2, 256]")
     self.registers = []
     for x in registers:
       if x > (numeral -1): raise ValueError("Register value more than ", numeral-1)
@@ -121,7 +121,7 @@ class Number:
     return sum
 
 
-'''
+''' I'm trying but fuck it for now!
   def __mul__(self, other):
     if self != other:
       raise ValueError("Different numeral systems")
