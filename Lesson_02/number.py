@@ -179,7 +179,7 @@ class Number:
 '''
 
 
-def test():
+def main():
 
   test_list = [
                 [Number((3, 255), 256), Number((2, 3), 256)],
@@ -198,4 +198,5 @@ def test():
     print("NS: {}   \t {} - {} = {}".format(x.numeral, x, y, diff))
     print("NS: {}   \t {} * {} = {}".format(x.numeral, x, y, mult))
 
-test()
+if __name__ == '__main__':
+  main()
