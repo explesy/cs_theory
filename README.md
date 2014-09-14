@@ -10,3 +10,7 @@ Lesson 02 - Representation of data
 ----------------------------------
 Here we have program with class Numbers that realizes summation, subtraction and multiplication for numbers with any numeral systems from 2 to 256.
 Each digit of number which we work presented as separated element of list, so it's kinda of realization of arbitrary-precision arithmetic. 
+
+Lesson 04 - O-notation
+----------------------------------
+We consider O-notation, and calculate processing time of following algorithms: insertion sort, selection sort and combining of two arrays.
